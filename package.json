@@ -1,0 +1,8 @@
+{
+  "name": "himsakom-undip-backend",
+  "version": "1.0.0",
+  "dependencies": {
+    "@hapi/hapi": "^20.2.1",
+    "moment": "^2.29.1"
+  }
+}
