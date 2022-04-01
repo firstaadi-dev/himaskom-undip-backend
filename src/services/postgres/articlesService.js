@@ -39,10 +39,13 @@ class ArticlesService {
     const query = {
       text:
         'SELECT\n' +
-        '    a.id, a.judul, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at\n' +
+        '        a.id, a.judul, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at\n' +
         'FROM\n' +
-        '    articles as a\n' +
-        '            INNER JOIN article_jenis AS aj on aj.id = a.jenis_id',
+        '        articles as a\n' +
+        'INNER JOIN\n' +
+        '        article_jenis AS aj on aj.id = a.jenis_id\n' +
+        'ORDER BY\n' +
+        '        a.created_at',
     };
     const result = await this.pool.query(query);
     return result.rows.map(mapDBToArticleModel);
@@ -84,7 +87,6 @@ class ArticlesService {
     };
 
     const result = await this.pool.query(query);
-    console.log(result);
     if (!result.rows.length) {
       throw new NotFoundError('article tidak ditemukan');
     }
