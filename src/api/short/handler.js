@@ -1,5 +1,5 @@
 const autobindr = require('autobindr');
-const ClientError = require('../../exceptions/ClientError');
+const { errorHandler } = require('../../utils');
 
 class ShortHandler {
   constructor(service) {
@@ -13,23 +13,7 @@ class ShortHandler {
       const result = await this.service.getShortById(articleId);
       return h.response({ data: result }).code(200);
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return errorHandler(error, h);
     }
   }
 }

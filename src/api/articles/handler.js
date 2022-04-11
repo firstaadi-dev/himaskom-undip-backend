@@ -1,6 +1,7 @@
 const autobindr = require('autobindr');
-const ClientError = require('../../exceptions/ClientError');
 const AuthorizationError = require('../../exceptions/AuthorizationError');
+const { errorHandler } = require('../../utils');
+const { fs } = require('../../config');
 
 class ArticlesHandler {
   constructor(service, validator) {
@@ -11,30 +12,12 @@ class ArticlesHandler {
 
   async addArticleHandler(request, h) {
     try {
-      if (request.headers.authorization !== 'tes') {
-        throw new AuthorizationError('kredensial salah');
-      }
       this.validator.validateArticlePayload(request.payload);
-      const result = await this.service.addArticle(request.payload);
+      const result = await this.service.addArticle(request.headers.authorization, request.payload);
       return h.response({ data: { id: result } }).code(200);
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      console.log(error);
+      return errorHandler(error, h);
     }
   }
 
@@ -43,23 +26,7 @@ class ArticlesHandler {
       const result = await this.service.getAllArticles();
       return h.response({ data: result });
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return errorHandler(error, h);
     }
   }
 
@@ -70,23 +37,7 @@ class ArticlesHandler {
 
       return h.response({ data: result }).code(200);
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return errorHandler(error, h);
     }
   }
 
@@ -102,23 +53,7 @@ class ArticlesHandler {
 
       return h.response({ id }).code(200);
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return errorHandler(error, h);
     }
   }
 
@@ -132,23 +67,7 @@ class ArticlesHandler {
 
       return h.response().code(204);
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
-
-      // Server ERROR!
-      const response = h.response({
-        status: 'error',
-        message: 'Maaf, terjadi kegagalan pada server kami.',
-      });
-      response.code(500);
-      console.error(error);
-      return response;
+      return errorHandler(error, h);
     }
   }
 }

@@ -2,3 +2,5 @@ node_modules
 .idea
 himsakom-undip-backend.iml
 .env
+serviceAccount.json
+

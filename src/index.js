@@ -25,8 +25,13 @@ const init = async () => {
   const jenisService = new JenisService();
   const savedService = new SavedService();
   const server = Hapi.server({
-    port: 8080,
-    host: 'localhost',
+    port: process.env.PORT || '8080',
+    host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
   });
 
   await server.register([

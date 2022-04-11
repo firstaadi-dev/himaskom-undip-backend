@@ -1,5 +1,6 @@
 const autobindr = require('autobindr');
 const ClientError = require('../../exceptions/ClientError');
+const { errorHandler } = require('../../utils');
 
 class JenisHandler {
   constructor(service) {
@@ -28,14 +29,7 @@ class JenisHandler {
       const result = await this.service.getArticleByJenis(jenisId);
       return h.response({ data: result }).code(200);
     } catch (error) {
-      if (error instanceof ClientError) {
-        const response = h.response({
-          status: 'fail',
-          message: error.message,
-        });
-        response.code(error.statusCode);
-        return response;
-      }
+      return errorHandler(error, h);
     }
   }
 }
