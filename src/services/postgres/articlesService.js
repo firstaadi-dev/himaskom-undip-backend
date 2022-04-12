@@ -4,12 +4,9 @@ const moment = require('moment');
 const {
   mapDBToArticleModel,
   mapDBToArticleDetailModel,
-  validateUser,
+  validateAdmin,
 } = require('../../utils');
 const NotFoundError = require('../../exceptions/NotFoundError');
-const { fs } = require('../../config');
-const AuthorizationError = require('../../exceptions/AuthorizationError');
-const InvariantError = require('../../exceptions/InvariantError');
 
 class ArticlesService {
   constructor() {
@@ -20,7 +17,7 @@ class ArticlesService {
     token,
     { judul, deskripsi, gambarUrl, jenisId, harga, tenggat },
   ) {
-    await validateUser(token);
+    await validateAdmin(token);
     const id = 'article-' + nanoid(8);
     const createdAt = new moment().format('YYYY-MM-DD hh:mm:ss');
 
@@ -79,8 +76,10 @@ class ArticlesService {
 
   async editArticleById(
     articleId,
+    token,
     { judul, deskripsi, gambarUrl, jenisId, harga, tenggat },
   ) {
+    await validateAdmin(token);
     const updatedAt = new moment().format('YYYY-MM-DD hh:mm:ss');
     const query = {
       text: 'UPDATE articles SET judul = $1, deskripsi = $2, gambar_url = $3, jenis_id = $4, harga = $5, updated_at = $6, tenggat = $7 WHERE id = $8 RETURNING id',
@@ -102,7 +101,8 @@ class ArticlesService {
     }
     return result.rows[0].id;
   }
-  async deleteArticleById(articleId) {
+  async deleteArticleById(token, articleId) {
+    await validateAdmin(token);
     const query = {
       text: 'DELETE FROM articles WHERE id = $1 RETURNING id',
       values: [articleId],

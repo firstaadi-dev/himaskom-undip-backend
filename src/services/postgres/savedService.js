@@ -1,14 +1,15 @@
 const { Pool } = require('pg');
 const InvariantError = require('../../exceptions/InvariantError');
 const NotFoundError = require('../../exceptions/NotFoundError');
-const { mapDBToArticleModel } = require('../../utils');
+const { mapDBToArticleModel, validateUser } = require('../../utils');
 
 class SavedService {
   constructor() {
     this.pool = new Pool();
   }
 
-  async saveArticle(uid, articleId) {
+  async saveArticle(uid, token, articleId) {
+    await validateUser(uid, token);
     const uniqueQuery = {
       text: 'SELECT * FROM saved_article_user WHERE user_uid = $1 AND article_id = $2',
       values: [uid, articleId],
@@ -50,7 +51,8 @@ class SavedService {
     return result.rows.map(mapDBToArticleModel);
   }
 
-  async deleteSavedArticle(uid, articleId) {
+  async deleteSavedArticle(uid, token, articleId) {
+    await validateUser(uid, token);
     const query = {
       text: 'DELETE FROM saved_article_user WHERE user_uid = $1 AND article_id = $2 RETURNING article_id',
       values: [uid, articleId],

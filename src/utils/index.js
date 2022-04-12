@@ -61,21 +61,33 @@ const errorHandler = (error, h) => {
   return response;
 };
 
-const validateUser = async (token) => {
+const validateAdmin = async (token) => {
   const parsedToken = token.split(' ')[1];
   try {
     var userData = await fs.auth().verifyIdToken(parsedToken);
   } catch (error) {
-    throw new InvariantError(error.message);
+    throw new AuthorizationError(error.message);
   }
   if (userData.uid !== 'bBWpeRswZyPn5j0SKEiQ28Pz84W2') {
     throw new AuthorizationError('anda tidak punya akses untuk fungsi admin');
   }
 };
 
+const validateUser = async (uid, token) => {
+  const parsedToken = token.split(' ')[1];
+  try {
+    var userData = await fs.auth().verifyIdToken(parsedToken);
+  } catch (error) {
+    throw new AuthorizationError(error.message);
+  }
+  if (uid !== userData.uid) {
+    throw new AuthorizationError('user tidak valid');
+  }
+};
 module.exports = {
   mapDBToArticleModel,
   mapDBToArticleDetailModel,
   errorHandler,
   validateUser,
+  validateAdmin,
 };

@@ -13,7 +13,10 @@ class ArticlesHandler {
   async addArticleHandler(request, h) {
     try {
       this.validator.validateArticlePayload(request.payload);
-      const result = await this.service.addArticle(request.headers.authorization, request.payload);
+      const result = await this.service.addArticle(
+        request.headers.authorization,
+        request.payload,
+      );
       return h.response({ data: { id: result } }).code(200);
     } catch (error) {
       console.log(error);
@@ -43,13 +46,14 @@ class ArticlesHandler {
 
   async putArticleByIdHandler(request, h) {
     try {
-      if (request.headers.authorization !== 'tes') {
-        throw new AuthorizationError('kredensial salah');
-      }
       this.validator.validateArticlePayload(request.payload);
 
       const { articleId } = request.params;
-      const id = await this.service.editArticleById(articleId, request.payload);
+      const id = await this.service.editArticleById(
+        articleId,
+        request.headers.authorization,
+        request.payload,
+      );
 
       return h.response({ id }).code(200);
     } catch (error) {
@@ -59,11 +63,11 @@ class ArticlesHandler {
 
   async deleteArticleByIdHandler(request, h) {
     try {
-      if (request.headers.authorization !== 'tes') {
-        throw new AuthorizationError('kredensial salah');
-      }
       const { articleId } = request.params;
-      await this.service.deleteArticleById(articleId);
+      await this.service.deleteArticleById(
+        request.headers.authorization,
+        articleId,
+      );
 
       return h.response().code(204);
     } catch (error) {
