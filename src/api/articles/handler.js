@@ -17,7 +17,15 @@ class ArticlesHandler {
         request.headers.authorization,
         request.payload,
       );
-      return h.response({ data: { id: result } }).code(200);
+      const { judul, jenisId, gambarUrl } = request.payload;
+      const notifId = await this.service.sendNotification(
+        result,
+        judul,
+        jenisId,
+        gambarUrl,
+        request.headers.authorization,
+      );
+      return h.response({ notifId: notifId, data: { id: result } }).code(200);
     } catch (error) {
       console.log(error);
       return errorHandler(error, h);

@@ -1,12 +1,10 @@
 const { Pool } = require('pg');
 const { nanoid } = require('nanoid');
 const moment = require('moment');
-const {
-  mapDBToArticleModel,
-  mapDBToArticleDetailModel,
-  validateAdmin,
-} = require('../../utils');
+const { mapDBToArticleModel, validateAdmin } = require('../../utils');
 const NotFoundError = require('../../exceptions/NotFoundError');
+const { fs } = require('../../config');
+const ServerError = require('../../exceptions/ServerError');
 
 class ArticlesService {
   constructor() {
@@ -41,17 +39,37 @@ class ArticlesService {
     return result.rows[0].id;
   }
 
+  async sendNotification(id, judul, jenisId, gambarUrl, token) {
+    var payload = {
+      topic: String(jenisId),
+      data: {
+        id: id,
+        jenisId: String(jenisId),
+        judul: judul,
+        gambarUrl: gambarUrl[0],
+      },
+    };
+    try {
+      var notifId = await fs.messaging().send(payload);
+    } catch (error) {
+      this.deleteArticleById(token, id);
+      throw new ServerError(error);
+    }
+
+    return notifId;
+  }
+
   async getAllArticles() {
     const query = {
       text:
         'SELECT\n' +
-        '        a.id, a.judul, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at\n' +
+        '        a.id, a.judul, a.deskripsi, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at, a.tenggat\n' +
         'FROM\n' +
         '        articles as a\n' +
         'INNER JOIN\n' +
         '        article_jenis AS aj on aj.id = a.jenis_id\n' +
         'ORDER BY\n' +
-        '        a.created_at',
+        '        a.created_at DESC ',
     };
     const result = await this.pool.query(query);
     return result.rows.map(mapDBToArticleModel);
@@ -71,7 +89,7 @@ class ArticlesService {
     if (!result.rows.length) {
       throw new NotFoundError('article tidak ditemukan');
     }
-    return result.rows.map(mapDBToArticleDetailModel)[0];
+    return result.rows.map(mapDBToArticleModel)[0];
   }
 
   async editArticleById(

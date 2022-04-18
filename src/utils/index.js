@@ -1,28 +1,9 @@
 const ClientError = require('../exceptions/ClientError');
-const InvariantError = require('../exceptions/InvariantError');
 const AuthorizationError = require('../exceptions/AuthorizationError');
 const { fs } = require('../config');
 const mapDBToArticleModel = ({
   id,
   judul,
-  gambar_url,
-  created_at,
-  jenis,
-  harga,
-  updated_at,
-}) => ({
-  id,
-  judul,
-  gambarUrl: gambar_url,
-  jenis,
-  harga,
-  createdAt: created_at,
-  updatedAt: updated_at,
-});
-
-const mapDBToArticleDetailModel = ({
-  id,
-  judul,
   deskripsi,
   gambar_url,
   created_at,
@@ -34,12 +15,12 @@ const mapDBToArticleDetailModel = ({
   id,
   judul,
   deskripsi,
+  tenggat,
   gambarUrl: gambar_url,
   jenis,
   harga,
   createdAt: created_at,
   updatedAt: updated_at,
-  tenggat,
 });
 
 const errorHandler = (error, h) => {
@@ -86,7 +67,6 @@ const validateUser = async (uid, token) => {
 };
 module.exports = {
   mapDBToArticleModel,
-  mapDBToArticleDetailModel,
   errorHandler,
   validateUser,
   validateAdmin,

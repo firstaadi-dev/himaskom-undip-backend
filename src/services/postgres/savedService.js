@@ -42,7 +42,9 @@ class SavedService {
         'INNER JOIN \n' +
         '        article_jenis aj on aj.id = a.jenis_id\n' +
         'WHERE \n' +
-        '        saved_article_user.user_uid = $1;',
+        '        saved_article_user.user_uid = $1;\n' +
+        'ORDER BY\n' +
+        '        a.created_at DESC ',
       values: [uid],
     };
 

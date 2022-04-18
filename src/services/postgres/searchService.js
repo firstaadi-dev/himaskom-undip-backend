@@ -1,13 +1,13 @@
 const { Pool } = require('pg');
-const NotFoundError = require('../../exceptions/NotFoundError');
 const { mapDBToArticleModel } = require('../../utils');
 
-class JenisService {
+class SearchService {
   constructor() {
     this.pool = new Pool();
   }
 
-  async getArticleByJenis(jenisId) {
+  async searchArticleByTitle(searchQuery) {
+    const keyword = '%' + searchQuery + '%';
     const query = {
       text:
         'SELECT\n' +
@@ -17,12 +17,13 @@ class JenisService {
         'INNER JOIN\n' +
         '        article_jenis AS aj on aj.id = a.jenis_id\n' +
         'WHERE\n' +
-        '        a.jenis_id = $1\n' +
+        '        lower(a.judul)\n' +
+        'LIKE\n' +
+        '        lower($1)' +
         'ORDER BY\n' +
-        '        a.created_at DESC',
-      values: [jenisId],
+        '        a.created_at DESC\n',
+      values: [keyword],
     };
-
     const result = await this.pool.query(query);
     if (!result.rows.length) {
       throw new NotFoundError('article tidak ditemukan');
@@ -30,5 +31,4 @@ class JenisService {
     return result.rows.map(mapDBToArticleModel);
   }
 }
-
-module.exports = JenisService;
+module.exports = SearchService;

@@ -19,11 +19,16 @@ const JenisService = require('./services/postgres/jenisService');
 const saved = require('./api/saved');
 const SavedService = require('./services/postgres/savedService');
 
+// Search
+const search = require('./api/search');
+const SearchService = require('./services/postgres/searchService');
+
 const init = async () => {
   const articlesService = new ArticlesService();
   const shortService = new ShortService();
   const jenisService = new JenisService();
   const savedService = new SavedService();
+  const searchService = new SearchService();
   const server = Hapi.server({
     port: process.env.PORT || '8080',
     host: process.env.NODE_ENV !== 'production' ? 'localhost' : '0.0.0.0',
@@ -42,12 +47,12 @@ const init = async () => {
         validator: ArticlesValidator,
       },
     },
-    {
-      plugin: short,
-      options: {
-        service: shortService,
-      },
-    },
+    // {
+    //   plugin: short,
+    //   options: {
+    //     service: shortService,
+    //   },
+    // },
     {
       plugin: jenis,
       options: {
@@ -58,6 +63,12 @@ const init = async () => {
       plugin: saved,
       options: {
         service: savedService,
+      },
+    },
+    {
+      plugin: search,
+      options: {
+        service: searchService,
       },
     },
   ]);
