@@ -11,7 +11,7 @@ class JenisService {
     const query = {
       text:
         'SELECT\n' +
-        '        a.id, a.judul, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at\n' +
+        '        a.id, a.judul, a.deskripsi, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at, a.tenggat\n' +
         'FROM\n' +
         '        articles as a\n' +
         'INNER JOIN\n' +

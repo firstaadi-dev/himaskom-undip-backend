@@ -8,8 +8,8 @@ const ArticlesService = require('./services/postgres/articlesService');
 const ArticlesValidator = require('./validator/articles');
 
 // Short
-const short = require('./api/short');
-const ShortService = require('./services/postgres/shortService');
+// const short = require('./api/short');
+// const ShortService = require('./services/postgres/shortService');
 
 // Jenis
 const jenis = require('./api/jenis');
@@ -25,7 +25,7 @@ const SearchService = require('./services/postgres/searchService');
 
 const init = async () => {
   const articlesService = new ArticlesService();
-  const shortService = new ShortService();
+  // const shortService = new ShortService();
   const jenisService = new JenisService();
   const savedService = new SavedService();
   const searchService = new SearchService();

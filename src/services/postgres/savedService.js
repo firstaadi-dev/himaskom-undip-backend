@@ -34,7 +34,7 @@ class SavedService {
     const query = {
       text:
         'SELECT \n' +
-        '        a.id, a.judul, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at\n' +
+        '        a.id, a.judul, a.deskripsi, a.gambar_url, a.created_at, aj.jenis_post as jenis, a.harga, a.updated_at, a.tenggat\n' +
         'FROM \n' +
         '        saved_article_user \n' +
         'INNER JOIN \n' +
@@ -42,9 +42,9 @@ class SavedService {
         'INNER JOIN \n' +
         '        article_jenis aj on aj.id = a.jenis_id\n' +
         'WHERE \n' +
-        '        saved_article_user.user_uid = $1;\n' +
+        '        saved_article_user.user_uid = $1\n' +
         'ORDER BY\n' +
-        '        a.created_at DESC ',
+        '        a.created_at DESC',
       values: [uid],
     };
 

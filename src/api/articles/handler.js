@@ -27,7 +27,6 @@ class ArticlesHandler {
       );
       return h.response({ notifId: notifId, data: { id: result } }).code(200);
     } catch (error) {
-      console.log(error);
       return errorHandler(error, h);
     }
   }
