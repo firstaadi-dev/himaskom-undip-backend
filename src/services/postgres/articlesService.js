@@ -40,8 +40,11 @@ class ArticlesService {
   }
 
   async sendNotification(id, judul, jenisId, gambarUrl, token) {
+    var topic = String(jenisId);
+    var options = {
+      contentAvailable: true,
+    };
     var payload = {
-      topic: String(jenisId),
       data: {
         id: id,
         jenisId: String(jenisId),
@@ -50,7 +53,7 @@ class ArticlesService {
       },
     };
     try {
-      var notifId = await fs.messaging().send(payload);
+      var notifId = await fs.messaging().sendToTopic(topic, payload, options);
     } catch (error) {
       this.deleteArticleById(token, id);
       throw new ServerError(error);

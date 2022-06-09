@@ -1,0 +1,3851 @@
+{
+	"info": {
+		"_postman_id": "daa43845-2c71-4e14-aff8-8f508d44daf5",
+		"name": "Backend Himaskom Undip",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17004183"
+	},
+	"item": [
+		{
+			"name": "articles",
+			"item": [
+				{
+					"name": "Menambah Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"});",
+									"",
+									"pm.test('response body should have notifId property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.ownProperty('notifId');",
+									"    pm.expect(responseJson.notifId).to.not.equals('');",
+									"})",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"EXPOSURE 2022\",\n    \"deskripsi\": \"MANTAP\\nYoi\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menambah Article Dengan Payload Yang Tidak Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 400', () => {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"    pm.expect(responseJson.message).to.not.equals('');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"gambarUrl\": [\"tes\"],\n    \"jenisId\": 1,\n    \"harga\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menambah Article Dengan Kredensial Yang Tidak Valid",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 403', () => {",
+									"    pm.response.to.have.status(403);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "falsekey",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes123",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Articles",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Article Dengan ID Yang Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an object', () => {",
+									"    pm.expect(data).to.be.an('object')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Article Dengan ID Yang Tidak Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"    pm.expect(responseJson.message).to.equals('article tidak ditemukan')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/falseid",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"falseid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengubah Article Dengan ID Yang Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should an object', () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"});",
+									"",
+									"pm.test('response body should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"",
+									"    pm.expect(responseJson).to.ownProperty('id');",
+									"    pm.expect(responseJson.id).to.not.equals('');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"edited\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengubah Article Dengan ID Yang Tidak Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"    pm.expect(responseJson.message).to.equals('article tidak ditemukan')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"edited\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles/falseid",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"falseid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengubah Article Dengan Kredensial Yang Tidak Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 403', () => {",
+									"    pm.response.to.have.status(403);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "falsekey",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes132",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"edited\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengubah Article Dengan Payload Yang Tidak Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 400', () => {",
+									"    pm.response.to.have.status(400);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"    pm.expect(responseJson.message).to.not.equals('');",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"edited\",\n    \"deskripsi\": \"tes\",\n    \"jenisId\": 1,\n    \"harga\": 0\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Autentikasi Gagal Saat Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 403', () => {",
+									"    pm.response.to.have.status(403);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "falsekey",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes123",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Dengan ID Yang Tidak Sesuai",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"    pm.expect(responseJson.message).to.equals('article tidak ditemukan')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/articles/falseid",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"falseid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "umum",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Umum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_umum', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 0,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Umum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"umum\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"   ",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/umum",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"umum"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Umum",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_umum}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_umum}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "beasiswa",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Beasiswa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_beasiswa', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 5,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Beasiswa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"beasiswa\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/beasiswa",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"beasiswa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Beasiswa",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_beasiswa}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_beasiswa}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "event",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Event HM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_hm', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menambah Article Dengan Jenis Event AM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_am', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 2,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menambah Article Dengan Jenis Event UKM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_ukm', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 3,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Event HM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"event_hm\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/event_hm",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"event_hm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Event AM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"event_am\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/event_am",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"event_am"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Event UKM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"event_ukm\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/event_ukm",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"event_ukm"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article HM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_hm}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_hm}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article AM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_am}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_am}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article UKM",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_ukm}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_ukm}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "sistore",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Sistore",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_sistore', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 4,\n    \"harga\": 50000,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Sistore",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"sistore\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/sistore",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"sistore"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_sistore}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_sistore}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "prestasi",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Prestasi",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_prestasi', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 6,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Prestasi",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"prestasi\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/prestasi",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"prestasi"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_prestasi}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_prestasi}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "karir",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Karir Loker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_loker', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 8,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menambah Article Dengan Jenis Karir Magang",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_magang', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 9,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Karir Loker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"karir_loker\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/karir_loker",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"karir_loker"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Karir Magang",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"karir_magang\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/karir_magang",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"karir_magang"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Loker",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_loker}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_loker}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Magang",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_magang}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_magang}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "akademik",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_akademik', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 7,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"akademik\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/akademik",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"akademik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_akademik}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_akademik}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "lomba",
+			"item": [
+				{
+					"name": "Menambah Article Dengan Jenis Lomba Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_lomba_akademik', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 10,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menambah Article Dengan Jenis Lomba Non-Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id_lomba_non_akademik', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 11,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Lomba Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"lomba_akademik\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/lomba_akademik",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"lomba_akademik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Dengan Jenis Lomba Non-Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"lomba_nonakademik\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/jenis/lomba_nonakademik",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"jenis",
+								"lomba_nonakademik"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Lomba Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_lomba_akademik}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_lomba_akademik}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article Lomba Non-Akademik",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id_lomba_non_akademik}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id_lomba_non_akademik}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "saved",
+			"item": [
+				{
+					"name": "Menambah Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"tes\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 1,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menyimpan Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    const responseJson = pm.response.json();",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"articleId\" : \"{{id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles/saved/{{uid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"saved",
+								"{{uid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menyimpan Article Dengan Kredensial Tidak Tepat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 403', () => {",
+									"    pm.response.to.have.status(403);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "falsekey",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"articleId\" : \"{{id}}\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles/saved/{{uid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"saved",
+								"{{uid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mengambil Daftar Article Yang Tersimpan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/saved/{{uid}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"saved",
+								"{{uid}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gagal Menghapus Artikel Tersimpan Karena ID Tidak Tepat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 404', () => {",
+									"    pm.response.to.have.status(404);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"    pm.expect(responseJson.message).to.equals('saved article tidak ditemukan')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/saved/{{uid}}/falseid",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"saved",
+								"{{uid}}",
+								"falseid"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Gagal Menghapus Artikel Tersimpan Karena Kredensial Tidak Tepat",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 403', () => {",
+									"    pm.response.to.have.status(403);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('contains an error message', () => {",
+									"    var responseJson = pm.response.json()",
+									"    pm.expect(responseJson).to.have.ownProperty('message')",
+									"})"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "apikey",
+							"apikey": [
+								{
+									"key": "value",
+									"value": "falsekey",
+									"type": "string"
+								},
+								{
+									"key": "key",
+									"value": "Authorization",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/saved/{{uid}}/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"saved",
+								"{{uid}}",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Artikel Tersimpan",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/saved/{{uid}}/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"saved",
+								"{{uid}}",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "search",
+			"item": [
+				{
+					"name": "Menambah Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"});",
+									"",
+									"pm.test('response body data should have id property and not equal to empty', () => {",
+									"    const responseJson = pm.response.json();",
+									"    const { data } = responseJson;",
+									" ",
+									"    pm.expect(data).to.ownProperty('id');",
+									"    pm.expect(data.userId).to.not.equals('');",
+									" ",
+									"    pm.environment.set('id', data.id);",
+									"});",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "tes",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"judul\": \"Artikel dengan judul {{search_query}}\",\n    \"deskripsi\": \"tes\",\n    \"gambarUrl\": [\"https://upload.wikimedia.org/wikipedia/commons/e/ee/Sample_abc.jpg\"],\n    \"jenisId\": 11,\n    \"harga\": 0,\n    \"tenggat\": \"2022-04-07 16:56:37.000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/articles",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Mencari Artikel",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"const moment = require(\"moment\")",
+									"const responseJson = pm.response.json()",
+									"var {data} = responseJson",
+									"const article = data != undefined ? data[0] : undefined;",
+									"",
+									"pm.test('response status code = 200', () => {",
+									"    pm.response.to.have.status(200);",
+									"})",
+									"",
+									"pm.test('response Content-Type header = application/json; charset=utf-8', () => {",
+									"    pm.expect(pm.response.headers.get('Content-Type')).to.equals('application/json; charset=utf-8');",
+									"});",
+									"",
+									"pm.test('response body should be an object', () => {",
+									"    pm.expect(responseJson).to.be.an('object');",
+									"})",
+									"",
+									"pm.test('response body data should be an array', () => {",
+									"    pm.expect(data).to.be.an('array')",
+									"})",
+									"",
+									"pm.test(\"contains a valid id field\", function () {",
+									"    pm.expect(article).to.have.property(\"id\");",
+									"    pm.expect(article.id).to.be.a(\"string\")",
+									"});",
+									"pm.test(\"contains a valid judul field\", function () {",
+									"    pm.expect(article).to.have.property(\"judul\");",
+									"    pm.expect(article.judul).to.be.a(\"string\")",
+									"    pm.expect(article.judul).to.contains(pm.environment.get(\"search_query\"))",
+									"});",
+									"",
+									"pm.test(\"contains a valid gambarUrl field\", function () {",
+									"    pm.expect(article).to.have.property(\"gambarUrl\");",
+									"    pm.expect(article.gambarUrl).to.be.a(\"array\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid createdAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"createdAt\");",
+									"    date = moment(article.createdAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid jenis field\", function () {",
+									"    pm.expect(article).to.have.property(\"jenis\");",
+									"    pm.expect(article.jenis).to.be.a(\"string\");",
+									"    pm.expect(article.jenis).to.equals(\"lomba_nonakademik\")",
+									"",
+									"});",
+									"pm.test(\"contains a valid harga field\", function () {",
+									"    pm.expect(article).to.have.property(\"harga\");",
+									"    pm.expect(article.harga).to.be.a(\"number\")",
+									"});",
+									"",
+									"pm.test(\"contains a valid updatedAt field\", function () {",
+									"    pm.expect(article).to.have.property(\"updatedAt\");",
+									"    date = moment(article.updatedAt, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"});",
+									"",
+									"pm.test(\"contains a valid deskripsi field\", function () {",
+									"    pm.expect(article).to.have.property(\"deskripsi\");",
+									"    pm.expect(article.deskripsi).to.be.a(\"string\")",
+									"",
+									"});",
+									"",
+									"pm.test(\"contains a valid tenggat field\", function () {",
+									"    pm.expect(article).to.have.property(\"tenggat\");",
+									"    date = moment(article.tenggat, 'YYYY-MM-DD hh:mm:ss')",
+									"    pm.expect(date.isValid()).to.equals(true)",
+									"",
+									"});",
+									"",
+									"",
+									"",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/search-articles?query={{search_query}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"search-articles"
+							],
+							"query": [
+								{
+									"key": "query",
+									"value": "{{search_query}}"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Menghapus Article",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test('response status code = 204', () => {",
+									"    pm.response.to.have.status(204);",
+									"})",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/articles/{{id}}",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"articles",
+								"{{id}}"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{bearer_token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
